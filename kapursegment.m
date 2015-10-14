@@ -5,6 +5,10 @@ function [LEVEL, maxPhi] = kapursegment(I,q)
 if nargin < 2
     q = 2;
 end
+I = double(I);
+I = I./max(I(:));
+
+I = im2uint8(I);
 
 [n,x] = imhist(I);
 N = numel(I);
