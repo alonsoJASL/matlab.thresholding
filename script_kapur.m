@@ -33,10 +33,4 @@ disp(LEVEL');
 disp(maxPhi);
 disp(c);
 
-%% testing on common images
-[dn, ds] = loadnames('common', 'linux');
-[imname] = loadimages(dn,ds);
-basefilename = strcat(dn,ds,imname);
-
-[X,xatt] = readParseInput(basefilename);
 
