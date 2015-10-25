@@ -81,7 +81,7 @@ while sqrt(prod(W)) > Wmin
         end
         if q*b + 1 < N
             y(end+1) = N;
-        elseif q*b + 1 > M
+        elseif q*b + 1 > N
             y(end) = N;
         end
         miniUi = zeros(length(x), length(y), k);
@@ -116,12 +116,12 @@ while sqrt(prod(W)) > Wmin
             
         end
         %
-        [xx1, yy1] = meshgrid(linspace(1,M,length(x)),...
-            linspace(1,N,length(y)));
-        [xx2, yy2] = meshgrid(1:M,1:N);
+        [xx1, yy1] = meshgrid(linspace(1,N,length(y)),...
+            linspace(1,M,length(x)));
+        [xx2, yy2] = meshgrid(1:N,1:M);
         miniUi(isnan(miniUi)) = 0;
         Uxs = zeros(M,N);
-        
+
         for i1=1:k
             Ui(:,:,i1) = interp2(xx1, yy1, miniUi(:,:,i1), xx2,yy2);
         end
@@ -139,19 +139,22 @@ while sqrt(prod(W)) > Wmin
                 testj = (j>1) + 10*(j<N);
                 switch testj
                     case 1
-                        windy = N-1:N;
+                        %windy = N-1:N;
+                        W2Q = XQ(windx,N-1:N);
                     case 10
-                        windy = 1:2;
+                        %windy = 1:2;
+                        W2Q = XQ(windx,1:2);
                     case 11
-                        windy = j-1:j+1;
+                        %windy = j-1:j+1;
+                        W2Q = XQ(windx,j-1:j+1);
                 end
                 
                 myValue = XQ(i,j);
-                W2Q = XQ(windx,windy);
+                %W2Q = XQ(windx,windy);
                 
                 if ~isempty(W2Q(W2Q~=myValue))
-                    myV = -bet*(length(W2Q(W2Q==myValue))-length(W2Q(W2Q~= ...
-                        myValue)));
+                    myV = -bet*(length(W2Q(W2Q==myValue))-...
+                        length(W2Q(W2Q~=myValue)));
                     myAll = -(X(i,j)-Ui(i,j,myValue))^2/sig-myV;
                     for r=1:k
                         Vr =  -bet*(length(W2Q(W2Q==r))-length(W2Q(W2Q~=r)));
@@ -164,6 +167,16 @@ while sqrt(prod(W)) > Wmin
                             newXQ(i,j) = r;
                         end
                     end
+                    
+%                     disp('Here!');
+%                     disp([windx -1 windy]);
+%                     disp([i j]);
+%                     disp('----');
+%                     disp(myValue);
+%                     disp(W2Q);
+%                     pause;
+%                 else
+%                     disp('Not here');
                 end
             end
         end

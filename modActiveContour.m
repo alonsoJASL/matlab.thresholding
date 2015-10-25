@@ -28,9 +28,9 @@ regS = regionprops(BW);
 M = mean([regS.Area]);
 S = std([regS.Area]);
 
-minblob = max(110,(M-3*S)/4);
+minblob = max(210,(M-3*S)/4);
 % Filter components by area
-BW = bwareafilt(BW, [209 Inf]); % minblob
+BW = bwareafilt(BW, [minblob Inf]); % minblob
 
 % Form masked image from input image and segmented image.
 maskedImage = im;
