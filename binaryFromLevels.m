@@ -2,8 +2,17 @@ function [binaryImage, dataL] = binaryFromLevels(X, levels)
 %                       BINARY FROM LEVELS
 %
 % Build binary image from thresholding levels. Optionally returns labeled
-% image as well. Supports both one (default) or two levels to do the
-% segmentation. 
+% image as well. Supports both one (default) or two (hysteresis) levels to 
+% do the segmentation. 
+% 
+% USAGE:
+%           [binaryImage, dataL] = binaryFromLevels(X, levels)
+% INPUT:
+%                       X := grey-scale image
+%                  levels := level(s) of threshold.
+% OUTPUT:
+%             binaryImage := Segmented image.
+%                   dataL := Labelled image.
 % 
 
 numLevels = length(levels);

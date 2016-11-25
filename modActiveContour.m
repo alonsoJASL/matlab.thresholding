@@ -1,6 +1,6 @@
-function [BW,maskedImage] = modActiveContour(im)
+function [BW,maskedImage] = modActiveContour(im, mask)
 %segmentImage segments image using auto-generated code from imageSegmenter App
-%  [BW,MASKEDIMAGE] = segmentImage(IM) segments image IM using auto-generated
+%  [BW,MASKEDIMAGE] = modActiveCountour(IM) segments image IM using auto-generated
 %  code from the imageSegmenter App. The final segmentation is returned in
 %  BW and a masked image is returned in MASKEDIMAGE.
 % 
@@ -14,8 +14,9 @@ function [BW,maskedImage] = modActiveContour(im)
 %mask = im>5;
 %im = double(im) ./ max(double(im(:)));
 %im = shadingCorrection(im);
-mask = binaryFromLevels(im,multithresh(im,2));
-
+if nargin < 2
+    mask = binaryFromLevels(im,multithresh(im,2));
+end
 
 % Evolve segmentation
 BW = activecontour(im, mask, 200, 'edge'); % ... or Chan-Vese
