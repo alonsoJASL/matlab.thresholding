@@ -4,7 +4,7 @@ function [BW, edgehandles] = complexedge(dataIn)
 %
 % usage: [BW, edgeshandles] = complexedge(Xg)
 % 
-[Xcanny] = edge(dataIn,'Canny', multithresh(dataIn,2));
+[Xcanny] = edge(dataIn,'canny', multithresh(dataIn,2));
 [Xacanny] = edge(dataIn,'approxcanny', multithresh(dataIn,2));
 [Xprewitt] = edge(dataIn,'Prewitt');
 [Xlog] = edge(dataIn,'log');

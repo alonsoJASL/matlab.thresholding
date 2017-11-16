@@ -25,14 +25,13 @@ function [IDX] = adaptiveClustering(I, k)
 %
 
 if k < 2
-    help adaptiveClustering
+    fprintf('%s: ERROR, a number of classes must be specified.\n', mfilename);
     IDX = [];
     return;
 end
 
 if ischar(I)
     X = imread(I);
-    X = double(X);
     if size(X,3) > 1
         X = rgb2gray(X);
     end
@@ -43,18 +42,17 @@ else
         X = I;
     end
 end
+X = double(X);
 
 %initial segmentation (we use Otsu's method because YOLO)
-[level] = multithresh(X, k-1);
-%
-XQ = imquantize(X,level);
+XQ = imquantize(X,multithresh(X, k-1));
 newXQ = XQ;
 
 W = size(X);
-[M, N] = size(X);
+M = W(1); N = W(2);
 
 Ui = zeros(M, N, k);
-sig = var(double(X(:)));
+sig = var(X(:));
 bet = mean(X(:))/sqrt(sig);
 %
 Wmin = 7;
@@ -167,16 +165,7 @@ while sqrt(prod(W)) > Wmin
                             newXQ(i,j) = r;
                         end
                     end
-                    
-%                     disp('Here!');
-%                     disp([windx -1 windy]);
-%                     disp([i j]);
-%                     disp('----');
-%                     disp(myValue);
-%                     disp(W2Q);
-%                     pause;
-%                 else
-%                     disp('Not here');
+                   
                 end
             end
         end
@@ -186,7 +175,7 @@ while sqrt(prod(W)) > Wmin
         n = n+1;
     end
     if n == nmax
-        disp('Max iterations reached!');
+        fprintf('%s: Max iterations reached!\n', mfilename);
     end
     W = floor(W/2);
     nChanges = numel(X);
